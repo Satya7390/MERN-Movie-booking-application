@@ -1,0 +1,14 @@
+folders: Backend
+movies (frontend)
+
+Backend-installation:
+npm i cors
+npm i express
+npm install nodemon
+npm i react-router-dom
+npm i mongodb
+npm i bcrypt
+npm i jsonwebtoken
+
+Database username:satyanandgupta
+Database Passsword:Satyamongo12
