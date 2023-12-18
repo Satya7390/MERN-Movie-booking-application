@@ -1,12 +1,11 @@
-const express = require('express')
-const adminRouter = express.Router;
+const express = require('express');
+const adminRouter = express.Router();
 
-const {addAdmin}=require('../controllers/admin-controller');
+const { addAdmin, adminLogin, getAdmins, getAdminByID } = require('../controllers/admin-controller');
 
+adminRouter.post('/signup', addAdmin);
+adminRouter.post("/login", adminLogin);
+adminRouter.get('/',getAdmins);
+adminRouter.get("/:id", getAdminByID);
 
-adminRouter.get('/signup', addAdmin);
-adminRouter.post('/login', adminLogin);
-adminRouter.get('/', getAdmin);
-adminRouter.get('/:id', getAdminById);
-
-module.exports = adminRouter;
+module.exports = adminRouter

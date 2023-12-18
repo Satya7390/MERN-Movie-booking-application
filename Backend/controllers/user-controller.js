@@ -1,19 +1,17 @@
 const bcrypt = require('bcryptjs');
 const user = require('../models/User');
+const Bookings = require('../models/Booking');
 
-const Booking = require('..models/Booking');
-
-const getAllUser = async (req, res, next) => {
+const getAllUser = async (req,res,next) => {
     let users;
     try {
         users = await user.find();
     } catch (err) {
         return console.log(err);
     }
-     
-    if(!users){
+    if(!users) {
         return res.status(500).json({
-            message:"Unexpected Error Occured"
+            message: "Unexpected error occured."
         })
     }
     return res.status(200).json({users})
@@ -100,3 +98,33 @@ const logIn = async (req, res, next) => {
     }
     return res.status(200).json({message: "Login Successful", id:existingUser._id})
 }
+
+const getBookingofUser = async (req, res, next) => {
+    const id = req.params.id;
+    let bookings;
+    try {
+        bookings = await Bookings.find({user:id}).populate("user movie");
+    } catch (err) {
+        return console.log(err)
+    }
+    if (!bookings) {
+        return res.status(500).json({message: "Uexpected Error Occured."})
+    }
+    return res.status(201).json({bookings});
+}
+
+const getUserById = async (req, res, next) => {
+    const id = req.params.id;
+    let users;
+    try {
+        users = await user.findById(id);
+    } catch (e) {
+        return console.log(e);
+    }
+    if (!users) {
+        return res.status(500).json({message: "Unexpected Error Occured"})
+    }
+    return res.status(200).json({users})
+}
+
+module.exports = {getAllUser, signUp, updateUser, deleteUser, logIn, getBookingofUser, getUserById}

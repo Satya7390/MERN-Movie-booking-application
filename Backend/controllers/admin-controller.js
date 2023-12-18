@@ -1,32 +1,35 @@
-const jwt = require('jwt');
-const Admin = require('..models/admin');
-const bcrypt = require('bcrypt');
+const jwt = require("jsonwebtoken")
+const Admin = require("../models/Admin");
+const bcrypt = require('bcryptjs');
 
 const addAdmin = async (req, res, next) => {
     const { email, password } = req.body;
+
+    let existingAdmin;
+
     try {
-        let existingAdmin = await Admin.findOne({ email })
+        existingAdmin = await Admin.findOne({email});
+    } catch (err){
+        return console.log(err)
     }
-    catch (err) {
-        return console.log(err);
+
+    if(existingAdmin) {
+        return res.status(400).json({ message: "Admin Already Exists"})
     }
-    if (existingAdmin) {
-        return res.status(400).json({ message: "Admin Already Exists" })
-    }
+
     let admin;
     const hashedPassword = bcrypt.hashSync(password);
     try {
-        admin = new Admin({ email, password: hashedPassword });
+        admin = new Admin({email, password: hashedPassword});
         admin = await admin.save();
-    }
-    catch(err){
+    } catch (err){
         return console.log(err);
     }
     if(!admin) {
-        return res.status(400).json({message: "Unable to create admin"});
+        return res.status(400).json({message: "Unable to create admin"})
     }
-    return res.status(201).json({message:"Admin Created", admin: admin});
-}   
+    return res.status(201).json({message: "Admin created", admin:admin})
+}
 
 const adminLogin = async (req, res, next) => {
     const { email, password } = req.body;
