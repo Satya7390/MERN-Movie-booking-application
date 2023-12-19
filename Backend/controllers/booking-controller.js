@@ -38,7 +38,7 @@ const Booking = async (req, res, next) => {
         await existingUser.save({ session });
         await existingMovie.save({ session });
         await newBooking.save({ session });
-
+        
         session.commitTransaction();
         // newBooking = await newBooking.save();
     }
@@ -77,5 +77,5 @@ const deleteBooking = async (req, res, next) => {
     }
     return res.status(200).json({ message: "Booking deleted successfully" });
 }
-
+  
 module.exports = {Booking, deleteBooking};   

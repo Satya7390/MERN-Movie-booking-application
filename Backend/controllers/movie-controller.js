@@ -37,7 +37,7 @@ const addMovie = async (req, res, next) => {
     let movie; 
     try{
         movie = new Movie({title, description, releaseDate: new Date(`${releaseDate}`), posterUrl, featured, actors, admin: adminId})
-
+        
         const session=await mongoose.startSession();
         const adminUser= await admin.findById(adminId);
 
@@ -58,7 +58,7 @@ const addMovie = async (req, res, next) => {
 }
 
 const getAllMovie = async (req, res, next) => {
-
+    
     let movies;
     try{
         movies = await Movie.find();
